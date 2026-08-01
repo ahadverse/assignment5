@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { QueryProvider } from "@/providers/query-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -41,8 +42,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster richColors closeButton position="top-right" />
+          <QueryProvider>
+            {children}
+            <Toaster richColors closeButton position="top-right" />
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
