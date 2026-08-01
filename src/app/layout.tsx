@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { QueryProvider } from "@/providers/query-provider";
+import { AuthProvider } from "@/providers/auth-provider";
+import { getCurrentUser } from "@/lib/auth-server";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,11 +26,13 @@ export const metadata: Metadata = {
     "Rent bikes, tents, kayaks and fitness gear from trusted local providers. Pick your dates, pay securely and collect.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrentUser();
+
   return (
     <html
       lang="en"
@@ -43,8 +47,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryProvider>
-            {children}
-            <Toaster richColors closeButton position="top-right" />
+            <AuthProvider user={user}>
+              {children}
+              <Toaster richColors closeButton position="top-right" />
+            </AuthProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>

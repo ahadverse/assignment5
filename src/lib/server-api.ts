@@ -1,4 +1,4 @@
-import { BACKEND_API_URL } from "@/lib/config";
+import { API_URL } from "@/lib/config";
 import { ApiError } from "@/lib/api-error";
 import type { ApiResponse } from "@/types";
 import type { ApiResult } from "@/lib/api-client";
@@ -14,7 +14,7 @@ export async function serverFetch<T>(
 ): Promise<ApiResult<T>> {
   const { revalidate, token, ...init } = options;
 
-  const response = await fetch(`${BACKEND_API_URL}${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     ...init,
     headers: {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),

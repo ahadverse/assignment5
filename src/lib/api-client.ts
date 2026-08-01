@@ -1,3 +1,5 @@
+import { API_URL } from "@/lib/config";
+import { readToken } from "@/lib/auth-cookie";
 import { ApiError, type FieldIssue } from "@/lib/api-error";
 import type { ApiMeta, ApiResponse } from "@/types";
 
@@ -38,15 +40,27 @@ export async function apiFetch<T>(
   path: string,
   init: RequestInit = {}
 ): Promise<ApiResult<T>> {
+  const token = readToken();
   const hasBody = init.body !== undefined;
 
-  const response = await fetch(`/api/bff${path}`, {
-    ...init,
-    headers: {
-      ...(hasBody ? { "Content-Type": "application/json" } : {}),
-      ...init.headers,
-    },
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      ...init,
+      headers: {
+        ...(hasBody ? { "Content-Type": "application/json" } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...init.headers,
+      },
+      cache: "no-store",
+    });
+  } catch {
+    throw new ApiError(
+      "Cannot reach the GearUp API. Check your connection and try again.",
+      0
+    );
+  }
 
   const body = (await readBody(response)) as ApiResponse<T> | null;
 
