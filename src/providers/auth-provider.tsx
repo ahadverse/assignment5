@@ -11,11 +11,9 @@ export function AuthProvider({
   user: User | null;
   children: ReactNode;
 }) {
-  const setUser = useAuthStore((state) => state.setUser);
-
   useEffect(() => {
-    setUser(user);
-  }, [user, setUser]);
+    useAuthStore.setState({ user, hydrated: true });
+  }, [user]);
 
   return <>{children}</>;
 }

@@ -8,7 +8,16 @@ const columns = [
       { href: "/gear", label: "All gear" },
       { href: "/gear?category=Cycling", label: "Cycling" },
       { href: "/gear?category=Camping", label: "Camping" },
+      { href: "/gear?category=Fitness", label: "Fitness" },
       { href: "/gear?category=Water%20Sports", label: "Water sports" },
+    ],
+  },
+  {
+    heading: "For providers",
+    links: [
+      { href: "/auth/register", label: "List your gear" },
+      { href: "/dashboard/provider", label: "Provider dashboard" },
+      { href: "/dashboard/provider/orders", label: "Manage orders" },
     ],
   },
   {
@@ -16,32 +25,34 @@ const columns = [
     links: [
       { href: "/auth/login", label: "Sign in" },
       { href: "/auth/register", label: "Create account" },
-      { href: "/dashboard", label: "Dashboard" },
+      { href: "/dashboard", label: "My dashboard" },
     ],
   },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="border-t bg-muted/30">
-      <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="space-y-3 sm:col-span-2 lg:col-span-2">
-          <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Mountain className="size-5 text-primary" />
+    <footer className="border-t bg-card">
+      <div className="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-5">
+        <div className="space-y-4 lg:col-span-2">
+          <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
+            <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
+              <Mountain className="size-4.5" />
+            </span>
             GearUp
           </Link>
           <p className="max-w-sm text-sm text-muted-foreground">
-            Rent sports and outdoor equipment from trusted local providers. Pick
-            your dates, pay securely, and collect your gear.
+            Rent sports and outdoor equipment from trusted local providers.
+            Choose your dates, pay securely, and collect your gear.
           </p>
         </div>
 
         {columns.map((column) => (
           <div key={column.heading} className="space-y-3">
             <p className="text-sm font-semibold">{column.heading}</p>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="space-y-2.5 text-sm text-muted-foreground">
               {column.links.map((link) => (
-                <li key={link.href}>
+                <li key={`${column.heading}-${link.href}`}>
                   <Link
                     href={link.href}
                     className="transition-colors hover:text-foreground"
@@ -56,10 +67,10 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t">
-        <p className="mx-auto w-full max-w-6xl px-4 py-4 text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} GearUp. Built for Programming Hero
-          Assignment 5.
-        </p>
+        <div className="container-page flex flex-col gap-2 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {new Date().getFullYear()} GearUp. All rights reserved.</p>
+          <p>Built for Programming Hero Assignment 5.</p>
+        </div>
       </div>
     </footer>
   );

@@ -42,8 +42,8 @@ export default async function RootLayout({
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <QueryProvider>

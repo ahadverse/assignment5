@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { TOKEN_COOKIE } from "@/lib/config";
 import { serverFetch } from "@/lib/server-api";
@@ -8,7 +9,7 @@ export async function getAuthToken() {
   return store.get(TOKEN_COOKIE)?.value;
 }
 
-export async function getCurrentUser(): Promise<User | null> {
+export const getCurrentUser = cache(async (): Promise<User | null> => {
   const token = await getAuthToken();
   if (!token) return null;
 
@@ -18,4 +19,4 @@ export async function getCurrentUser(): Promise<User | null> {
   } catch {
     return null;
   }
-}
+});
