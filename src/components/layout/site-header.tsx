@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   ChevronDown,
   LogOut,
   Menu,
   Mountain,
-  Search,
   Tent,
   Bike,
   Dumbbell,
@@ -15,7 +14,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
@@ -31,6 +29,7 @@ import {
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/layout/user-menu";
+import { GearSearch } from "@/components/gear/gear-search";
 import { useAuthStore } from "@/stores/auth-store";
 import { useLogout } from "@/hooks/use-auth";
 import { dashboardHome, dashboardNav } from "@/lib/navigation";
@@ -46,9 +45,7 @@ const categories = [
 
 export function SiteHeader({ user: serverUser }: { user: User | null }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [term, setTerm] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const storeUser = useAuthStore((state) => state.user);
   const logout = useLogout();
@@ -64,13 +61,6 @@ export function SiteHeader({ user: serverUser }: { user: User | null }) {
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
-
-  function submitSearch(event: React.FormEvent) {
-    event.preventDefault();
-    const query = term.trim();
-    router.push(query ? `/gear?search=${encodeURIComponent(query)}` : "/gear");
-    setOpen(false);
-  }
 
   return (
     <header
@@ -154,21 +144,7 @@ export function SiteHeader({ user: serverUser }: { user: User | null }) {
           ) : null}
         </nav>
 
-        <form
-          onSubmit={submitSearch}
-          className="ml-auto hidden max-w-xs flex-1 md:block"
-        >
-          <div className="relative">
-            <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={term}
-              onChange={(event) => setTerm(event.target.value)}
-              placeholder="Search gear..."
-              aria-label="Search gear"
-              className="h-9 pl-9"
-            />
-          </div>
-        </form>
+        <GearSearch className="ml-auto hidden w-full max-w-xs md:block" />
 
         <div className="ml-auto flex items-center gap-1.5 md:ml-0">
           <ThemeToggle />
@@ -206,18 +182,10 @@ export function SiteHeader({ user: serverUser }: { user: User | null }) {
               </SheetTitle>
 
               <div className="flex flex-col gap-1 p-5">
-                <form onSubmit={submitSearch} className="mb-4">
-                  <div className="relative">
-                    <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      value={term}
-                      onChange={(event) => setTerm(event.target.value)}
-                      placeholder="Search gear..."
-                      aria-label="Search gear"
-                      className="pl-9"
-                    />
-                  </div>
-                </form>
+                <GearSearch
+                  className="mb-4"
+                  onNavigate={() => setOpen(false)}
+                />
 
                 <Link
                   href="/"
