@@ -1,36 +1,46 @@
 import Link from "next/link";
 import { Mountain } from "lucide-react";
+import { dashboardHome } from "@/lib/navigation";
+import type { User } from "@/types";
 
-const columns = [
-  {
-    heading: "Browse",
-    links: [
-      { href: "/gear", label: "All gear" },
-      { href: "/gear?category=Cycling", label: "Cycling" },
-      { href: "/gear?category=Camping", label: "Camping" },
-      { href: "/gear?category=Fitness", label: "Fitness" },
-      { href: "/gear?category=Water%20Sports", label: "Water sports" },
-    ],
-  },
-  {
-    heading: "For providers",
-    links: [
-      { href: "/auth/register", label: "List your gear" },
-      { href: "/dashboard/provider", label: "Provider dashboard" },
-      { href: "/dashboard/provider/orders", label: "Manage orders" },
-    ],
-  },
-  {
+const browseColumn = {
+  heading: "Browse",
+  links: [
+    { href: "/gear", label: "All gear" },
+    { href: "/gear?category=Cycling", label: "Cycling" },
+    { href: "/gear?category=Camping", label: "Camping" },
+    { href: "/gear?category=Fitness", label: "Fitness" },
+    { href: "/gear?category=Water%20Sports", label: "Water sports" },
+  ],
+};
+
+const providerColumn = {
+  heading: "For providers",
+  links: [
+    { href: "/auth/register", label: "List your gear" },
+    { href: "/dashboard/provider", label: "Provider dashboard" },
+    { href: "/dashboard/provider/orders", label: "Manage orders" },
+  ],
+};
+
+function accountColumn(user: User | null) {
+  return {
     heading: "Account",
-    links: [
-      { href: "/auth/login", label: "Sign in" },
-      { href: "/auth/register", label: "Create account" },
-      { href: "/dashboard", label: "My dashboard" },
-    ],
-  },
-];
+    links: user
+      ? [
+          { href: dashboardHome(user.role), label: "My dashboard" },
+          { href: `${dashboardHome(user.role)}/profile`, label: "Profile" },
+        ]
+      : [
+          { href: "/auth/login", label: "Sign in" },
+          { href: "/auth/register", label: "Create account" },
+        ],
+  };
+}
 
-export function SiteFooter() {
+export function SiteFooter({ user = null }: { user?: User | null }) {
+  const columns = [browseColumn, providerColumn, accountColumn(user)];
+
   return (
     <footer className="border-t bg-card">
       <div className="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-5">
