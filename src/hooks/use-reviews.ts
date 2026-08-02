@@ -3,7 +3,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { api } from "@/lib/api-client";
-import { getErrorMessage } from "@/lib/api-error";
 import { queryKeys } from "@/lib/query-keys";
 import type { Review } from "@/types";
 
@@ -26,11 +25,6 @@ export function useCreateReview() {
       queryClient.invalidateQueries({ queryKey: queryKeys.gear.all });
       toast.success("Review posted", {
         description: "Thanks for helping other renters choose.",
-      });
-    },
-    onError: (error) => {
-      toast.error("Could not post your review", {
-        description: getErrorMessage(error),
       });
     },
   });

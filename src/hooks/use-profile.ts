@@ -3,7 +3,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { api } from "@/lib/api-client";
-import { getErrorMessage } from "@/lib/api-error";
 import { useAuthStore } from "@/stores/auth-store";
 import type { User } from "@/types";
 
@@ -25,11 +24,6 @@ export function useUpdateProfile() {
     onSuccess: (user) => {
       setUser(user);
       toast.success("Profile updated");
-    },
-    onError: (error) => {
-      toast.error("Could not update your profile", {
-        description: getErrorMessage(error),
-      });
     },
   });
 }

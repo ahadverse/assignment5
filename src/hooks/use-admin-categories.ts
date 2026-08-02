@@ -29,11 +29,6 @@ export function useCreateCategory() {
       invalidate();
       toast.success("Category added", { description: category.name });
     },
-    onError: (error) => {
-      toast.error("Could not add this category", {
-        description: getErrorMessage(error),
-      });
-    },
   });
 }
 
@@ -48,11 +43,6 @@ export function useUpdateCategory(id: string) {
     onSuccess: (category) => {
       invalidate();
       toast.success("Category updated", { description: category.name });
-    },
-    onError: (error) => {
-      toast.error("Could not update this category", {
-        description: getErrorMessage(error),
-      });
     },
   });
 }

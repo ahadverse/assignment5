@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loader2, Pencil, Plus } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -62,7 +63,7 @@ export function CategoryFormDialog({ category }: { category?: Category }) {
         "name",
         "description",
       ]);
-      if (!matched) setError("name", { type: "server", message });
+      if (!matched) toast.error("Could not save this category", { description: message });
     }
   }
 

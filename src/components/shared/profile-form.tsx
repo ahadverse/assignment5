@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,7 +51,7 @@ export function ProfileForm({ user: initialUser }: { user: User }) {
       });
     } catch (error) {
       const { matched, message } = applyApiErrors(error, setError, FIELDS);
-      if (!matched) setError("fullName", { type: "server", message });
+      if (!matched) toast.error("Could not update your profile", { description: message });
     }
   }
 

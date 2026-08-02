@@ -68,11 +68,6 @@ export function useCreateGear() {
         description: `${gear.name} is now in the public catalogue.`,
       });
     },
-    onError: (error) => {
-      toast.error("Could not list this gear", {
-        description: getErrorMessage(error),
-      });
-    },
   });
 }
 
@@ -91,11 +86,6 @@ export function useUpdateGear(id: string) {
       invalidate();
       toast.success("Changes saved", {
         description: `${gear.name} has been updated.`,
-      });
-    },
-    onError: (error) => {
-      toast.error("Could not save your changes", {
-        description: getErrorMessage(error),
       });
     },
   });
