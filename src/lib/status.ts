@@ -54,6 +54,10 @@ export function isPayable(status: RentalStatus) {
   return status === "PLACED" || status === "CONFIRMED";
 }
 
+export function isReviewable(status: RentalStatus) {
+  return status === "PAID" || status === "RETURNED";
+}
+
 export function awaitsPayment(order: RentalOrder) {
   return isPayable(order.status) && order.payment?.status !== "COMPLETED";
 }

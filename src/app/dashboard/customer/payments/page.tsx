@@ -1,18 +1,20 @@
-import { CreditCard } from "lucide-react";
+import { Suspense } from "react";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { EmptyState } from "@/components/dashboard/empty-state";
+import { TableSkeleton } from "@/components/dashboard/table-skeleton";
+import { PaymentHistory } from "@/components/customer/payment-history";
 
 export const metadata = { title: "Payments" };
 
 export default function CustomerPaymentsPage() {
   return (
     <>
-      <PageHeader title="Payments" description="Your payment history for completed rentals." />
-      <EmptyState
-        icon={CreditCard}
-        title="Nothing here yet"
-        description="This section is being set up."
+      <PageHeader
+        title="Payments"
+        description="Every checkout you have made, with its Stripe reference."
       />
+      <Suspense fallback={<TableSkeleton rows={5} columns={6} />}>
+        <PaymentHistory />
+      </Suspense>
     </>
   );
 }

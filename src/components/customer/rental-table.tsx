@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/table";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { CancelOrderDialog } from "@/components/customer/cancel-order-dialog";
+import { ReviewDialog } from "@/components/customer/review-dialog";
 import { formatCurrency, formatDate, rentalDays } from "@/lib/format";
-import { hasFailedAttempt, isPayable } from "@/lib/status";
+import { hasFailedAttempt, isPayable, isReviewable } from "@/lib/status";
 import type { RentalOrder } from "@/types";
 
 function orderHref(order: RentalOrder) {
@@ -54,6 +55,14 @@ function RentalActions({ order }: { order: RentalOrder }) {
             {hasFailedAttempt(order) ? "Pay again" : "Pay now"}
           </Link>
         </Button>
+      </div>
+    );
+  }
+
+  if (isReviewable(order.status) && !order.review) {
+    return (
+      <div className="flex justify-end gap-2">
+        <ReviewDialog order={order} />
       </div>
     );
   }

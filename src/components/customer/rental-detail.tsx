@@ -12,9 +12,15 @@ import {
   StatusBadge,
 } from "@/components/shared/status-badge";
 import { CancelOrderDialog } from "@/components/customer/cancel-order-dialog";
+import { ReviewDialog } from "@/components/customer/review-dialog";
 import { useRental } from "@/hooks/use-rentals";
 import { formatCurrency, formatDate, formatDateTime, rentalDays } from "@/lib/format";
-import { hasFailedAttempt, isPayable, rentalStatusHelp } from "@/lib/status";
+import {
+  hasFailedAttempt,
+  isPayable,
+  isReviewable,
+  rentalStatusHelp,
+} from "@/lib/status";
 
 export function RentalDetail({ orderId }: { orderId: string }) {
   const { data: order, isPending, isError, error, refetch } = useRental(orderId);
@@ -166,6 +172,12 @@ export function RentalDetail({ orderId }: { orderId: string }) {
                 {formatCurrency(order.totalAmount)}
               </Link>
             </Button>
+          </div>
+        ) : null}
+
+        {isReviewable(order.status) && !order.review ? (
+          <div className="mt-6 flex justify-end">
+            <ReviewDialog order={order} size="default" />
           </div>
         ) : null}
       </div>
