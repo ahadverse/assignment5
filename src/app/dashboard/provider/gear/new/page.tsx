@@ -1,18 +1,16 @@
-import { PackagePlus } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { EmptyState } from "@/components/dashboard/empty-state";
+import { GearCreator } from "@/components/provider/gear-creator";
 
 export const metadata = { title: "Add Gear" };
 
 export default function ProviderGearNewPage() {
   return (
-    <>
-      <PageHeader title="Add Gear" description="List a new piece of equipment." />
-      <EmptyState
-        icon={PackagePlus}
-        title="Nothing here yet"
-        description="This section is being set up."
+    <div className="mx-auto max-w-3xl">
+      <PageHeader
+        title="Add Gear"
+        description="List a new piece of equipment. It goes live in the catalogue straight away."
       />
-    </>
+      <GearCreator />
+    </div>
   );
 }
