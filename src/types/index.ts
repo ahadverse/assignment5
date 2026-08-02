@@ -149,6 +149,18 @@ export interface AdminStats {
   recentOrders: RentalOrder[];
 }
 
+export interface StatsRecentOrder {
+  id: string;
+  rentalStartDate: string;
+  rentalEndDate: string;
+  quantity: number;
+  totalAmount: string;
+  status: RentalStatus;
+  createdAt: string;
+  gear: { id: string; name: string; images?: string[] };
+  customer?: { id: string; fullName: string; email: string };
+}
+
 export interface ProviderStats {
   totalGear: number;
   activeGear: number;
@@ -157,5 +169,5 @@ export interface ProviderStats {
   totalOrders: number;
   totalRevenue: number;
   ordersByStatus: Record<RentalStatus, number>;
-  recentOrders: RentalOrder[];
+  recentOrders: StatsRecentOrder[];
 }
