@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { api, buildQuery, type QueryParams } from "@/lib/api-client";
 import { getErrorMessage } from "@/lib/api-error";
 import { queryKeys } from "@/lib/query-keys";
+import { awaitsPayment } from "@/lib/status";
 import type { ApiMeta, RentalOrder } from "@/types";
 
 export function useRentals(params: QueryParams = {}) {
@@ -57,7 +58,7 @@ export function summarise(orders: RentalOrder[]) {
   const active = orders.filter(
     (order) => order.status === "PAID" || order.status === "PICKED_UP"
   );
-  const awaitingPayment = orders.filter((order) => order.status === "CONFIRMED");
+  const awaitingPayment = orders.filter(awaitsPayment);
   const spent = orders.reduce(
     (total, order) =>
       order.payment?.status === "COMPLETED"

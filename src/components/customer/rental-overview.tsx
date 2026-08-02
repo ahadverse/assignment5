@@ -10,6 +10,7 @@ import { TableSkeleton } from "@/components/dashboard/table-skeleton";
 import { RentalTable } from "@/components/customer/rental-table";
 import { summarise, useRentals } from "@/hooks/use-rentals";
 import { formatCurrency } from "@/lib/format";
+import { hasFailedAttempt } from "@/lib/status";
 
 export function RentalOverview() {
   const { data, isPending, isError, error, refetch } = useRentals({
@@ -90,8 +91,8 @@ export function RentalOverview() {
           <h2 className="font-semibold">Needs your attention</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             {awaitingPayment.length} booking
-            {awaitingPayment.length === 1 ? " has" : "s have"} been confirmed and
-            {awaitingPayment.length === 1 ? " is" : " are"} waiting for payment.
+            {awaitingPayment.length === 1 ? " is" : "s are"} waiting for payment.
+            Your dates are not secured until you pay.
           </p>
           <ul className="mt-4 space-y-2">
             {awaitingPayment.slice(0, 3).map((order) => (
@@ -106,8 +107,8 @@ export function RentalOverview() {
                   </p>
                 </div>
                 <Button asChild size="sm">
-                  <Link href={`/dashboard/customer/orders/${order.id}`}>
-                    View booking
+                  <Link href={`/dashboard/customer/orders/${order.id}/pay`}>
+                    {hasFailedAttempt(order) ? "Pay again" : "Pay now"}
                   </Link>
                 </Button>
               </li>

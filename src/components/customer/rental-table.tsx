@@ -15,6 +15,7 @@ import {
 import { StatusBadge } from "@/components/shared/status-badge";
 import { CancelOrderDialog } from "@/components/customer/cancel-order-dialog";
 import { formatCurrency, formatDate, rentalDays } from "@/lib/format";
+import { hasFailedAttempt, isPayable } from "@/lib/status";
 import type { RentalOrder } from "@/types";
 
 function orderHref(order: RentalOrder) {
@@ -44,16 +45,21 @@ function GearThumb({ order }: { order: RentalOrder }) {
 }
 
 function RentalActions({ order }: { order: RentalOrder }) {
-  if (order.status === "PLACED") {
-    return <CancelOrderDialog order={order} />;
+  if (isPayable(order.status)) {
+    return (
+      <div className="flex justify-end gap-2">
+        {order.status === "PLACED" ? <CancelOrderDialog order={order} /> : null}
+        <Button asChild size="sm">
+          <Link href={`${orderHref(order)}/pay`}>
+            {hasFailedAttempt(order) ? "Pay again" : "Pay now"}
+          </Link>
+        </Button>
+      </div>
+    );
   }
 
   return (
-    <Button
-      asChild
-      variant={order.status === "CONFIRMED" ? "default" : "ghost"}
-      size="sm"
-    >
+    <Button asChild variant="ghost" size="sm">
       <Link href={orderHref(order)}>View</Link>
     </Button>
   );

@@ -1,4 +1,4 @@
-import type { PaymentStatus, RentalStatus } from "@/types";
+import type { PaymentStatus, RentalOrder, RentalStatus } from "@/types";
 
 export const rentalStatusStyles: Record<RentalStatus, string> = {
   PLACED:
@@ -24,7 +24,7 @@ export const rentalStatusLabels: Record<RentalStatus, string> = {
 };
 
 export const rentalStatusHelp: Record<RentalStatus, string> = {
-  PLACED: "Waiting for the provider to confirm this booking.",
+  PLACED: "Booked but not paid yet. Complete the payment to secure your dates.",
   CONFIRMED: "Confirmed by the provider. Pay now to lock in your rental.",
   PAID: "Payment received. The provider will hand the gear over.",
   PICKED_UP: "You currently have this gear.",
@@ -49,6 +49,18 @@ export const paymentStatusStyles: Record<PaymentStatus, string> = {
   FAILED:
     "border-red-300 bg-red-100 text-red-800 dark:border-red-500/40 dark:bg-red-500/15 dark:text-red-300",
 };
+
+export function isPayable(status: RentalStatus) {
+  return status === "PLACED" || status === "CONFIRMED";
+}
+
+export function awaitsPayment(order: RentalOrder) {
+  return isPayable(order.status) && order.payment?.status !== "COMPLETED";
+}
+
+export function hasFailedAttempt(order: RentalOrder) {
+  return Boolean(order.payment) && order.payment?.status !== "COMPLETED";
+}
 
 export function nextProviderAction(status: RentalStatus) {
   if (status === "PLACED") return { label: "Confirm", next: "CONFIRMED" as const };

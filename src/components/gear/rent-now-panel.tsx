@@ -98,10 +98,10 @@ export function RentNowPanel({
       return data;
     },
     onSuccess: (order) => {
-      toast.success("Rental request placed", {
-        description: "The provider will confirm it shortly.",
+      toast.success("Booking placed", {
+        description: "Complete the payment to lock in your dates.",
       });
-      router.push(`/dashboard/customer/orders/${order.id}`);
+      router.push(`/dashboard/customer/orders/${order.id}/pay`);
     },
     onError: (error) => {
       toast.error("Could not place the booking", {
@@ -259,7 +259,7 @@ export function RentNowPanel({
 
       <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
         <ShieldCheck className="size-3.5" />
-        You pay after the provider confirms
+        Secure checkout through Stripe
       </p>
     </div>
   );

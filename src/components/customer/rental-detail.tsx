@@ -14,7 +14,7 @@ import {
 import { CancelOrderDialog } from "@/components/customer/cancel-order-dialog";
 import { useRental } from "@/hooks/use-rentals";
 import { formatCurrency, formatDate, formatDateTime, rentalDays } from "@/lib/format";
-import { rentalStatusHelp } from "@/lib/status";
+import { hasFailedAttempt, isPayable, rentalStatusHelp } from "@/lib/status";
 
 export function RentalDetail({ orderId }: { orderId: string }) {
   const { data: order, isPending, isError, error, refetch } = useRental(orderId);
@@ -155,9 +155,17 @@ export function RentalDetail({ orderId }: { orderId: string }) {
           </div>
         </dl>
 
-        {order.status === "PLACED" ? (
+        {isPayable(order.status) ? (
           <div className="mt-6 flex flex-wrap justify-end gap-3">
-            <CancelOrderDialog order={order} size="default" />
+            {order.status === "PLACED" ? (
+              <CancelOrderDialog order={order} size="default" />
+            ) : null}
+            <Button asChild size="lg">
+              <Link href={`/dashboard/customer/orders/${order.id}/pay`}>
+                {hasFailedAttempt(order) ? "Pay again" : "Pay"}{" "}
+                {formatCurrency(order.totalAmount)}
+              </Link>
+            </Button>
           </div>
         ) : null}
       </div>
