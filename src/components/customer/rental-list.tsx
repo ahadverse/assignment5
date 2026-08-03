@@ -41,8 +41,6 @@ export function RentalList() {
 
   function buildHref(next: { status?: string; page?: number }) {
     const query = new URLSearchParams(params.toString());
-    query.delete("payment");
-    query.delete("orderId");
 
     if ("status" in next) {
       if (!next.status || next.status === ALL) query.delete("status");

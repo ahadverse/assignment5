@@ -38,6 +38,17 @@ export function GearCard({ gear }: { gear: GearSummary }) {
           </Badge>
         ) : null}
 
+        <Badge
+          variant="outline"
+          className={
+            soldOut
+              ? "absolute top-3 right-3 border-red-300 bg-red-100 text-red-800 dark:border-red-500/40 dark:bg-red-500/15 dark:text-red-300"
+              : "absolute top-3 right-3 border-green-300 bg-green-100 text-green-800 dark:border-green-500/40 dark:bg-green-500/15 dark:text-green-300"
+          }
+        >
+          {soldOut ? "Unavailable" : "Available"}
+        </Badge>
+
         {soldOut ? (
           <div className="absolute inset-0 grid place-items-center bg-background/70 backdrop-blur-[1px]">
             <Badge variant="outline" className="bg-background">

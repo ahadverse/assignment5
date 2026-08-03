@@ -1,5 +1,5 @@
-import { PaymentRedirectFallback } from "@/components/payment/payment-redirect-fallback";
+import { PaymentPending } from "@/components/payment/payment-pending";
 
 export default function PaymentCancelLoading() {
-  return <PaymentRedirectFallback label="Payment cancelled" />;
+  return <PaymentPending label="Loading your booking" />;
 }

@@ -53,6 +53,17 @@ function blockedDays(availability: GearAvailability | undefined) {
   return full;
 }
 
+function coversBlockedDay(range: DateRange | undefined, blocked: Date[]) {
+  if (!range?.from || !range?.to || blocked.length === 0) return false;
+
+  const taken = new Set(blocked.map((day) => day.toDateString()));
+
+  return eachDayOfInterval({
+    start: startOfDay(range.from),
+    end: startOfDay(range.to),
+  }).some((day) => taken.has(day.toDateString()));
+}
+
 export function RentNowPanel({
   gear,
   user: serverUser,
@@ -111,7 +122,9 @@ export function RentNowPanel({
   });
 
   const inStock = gear.availability && gear.stock > 0;
-  const canSubmit = Boolean(range?.from && range?.to) && inStock;
+  const overlapsBooked = coversBlockedDay(range, disabledDays);
+  const canSubmit =
+    Boolean(range?.from && range?.to) && inStock && !overlapsBooked;
 
   return (
     <div id="rent" className="rounded-xl border bg-card p-5">
@@ -156,13 +169,15 @@ export function RentNowPanel({
                 selected={range}
                 onSelect={setRange}
                 defaultMonth={range?.from ?? addDays(new Date(), 1)}
+                excludeDisabled
                 disabled={[
                   { before: startOfDay(addDays(new Date(), 0)) },
                   ...disabledDays,
                 ]}
               />
               <div className="border-t p-3 text-xs text-muted-foreground">
-                Dates already fully booked are disabled.
+                Past dates and days already fully booked are disabled. A rental
+                window cannot span a booked day.
               </div>
             </PopoverContent>
           </Popover>
@@ -201,6 +216,16 @@ export function RentNowPanel({
             </span>
           </div>
         </div>
+
+        {overlapsBooked ? (
+          <p
+            role="alert"
+            className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-300"
+          >
+            Those dates include a day that is already fully booked. Pick a
+            window that does not cross a disabled date.
+          </p>
+        ) : null}
       </div>
 
       {days > 0 ? (
@@ -248,6 +273,8 @@ export function RentNowPanel({
               </>
             ) : !inStock ? (
               "Currently unavailable"
+            ) : overlapsBooked ? (
+              "Choose different dates"
             ) : !canSubmit ? (
               "Select your dates"
             ) : (

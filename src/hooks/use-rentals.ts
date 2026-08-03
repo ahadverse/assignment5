@@ -21,7 +21,7 @@ export function useRentals(params: QueryParams = {}) {
   });
 }
 
-export function useRental(id: string) {
+export function useRental(id: string, options: { enabled?: boolean } = {}) {
   return useQuery({
     queryKey: queryKeys.rentals.detail(id),
     queryFn: async () => {
@@ -29,6 +29,7 @@ export function useRental(id: string) {
       return data;
     },
     retry: false,
+    enabled: options.enabled ?? true,
   });
 }
 

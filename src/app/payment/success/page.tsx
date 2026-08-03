@@ -1,12 +1,12 @@
 import { Suspense } from "react";
 import { PaymentConfirmation } from "@/components/payment/payment-confirmation";
-import { PaymentRedirectFallback } from "@/components/payment/payment-redirect-fallback";
+import { PaymentPending } from "@/components/payment/payment-pending";
 
-export const metadata = { title: "Payment" };
+export const metadata = { title: "Payment successful" };
 
 export default function PaymentSuccessPage() {
   return (
-    <Suspense fallback={<PaymentRedirectFallback label="Confirming your payment" />}>
+    <Suspense fallback={<PaymentPending label="Confirming your payment" />}>
       <PaymentConfirmation />
     </Suspense>
   );

@@ -55,7 +55,7 @@ export function isPayable(status: RentalStatus) {
 }
 
 export function isReviewable(status: RentalStatus) {
-  return status === "PAID" || status === "RETURNED";
+  return status === "RETURNED";
 }
 
 export function awaitsPayment(order: RentalOrder) {

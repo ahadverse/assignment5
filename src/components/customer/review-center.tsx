@@ -49,8 +49,7 @@ function GearRow({
           {order.gear.name}
         </Link>
         <p className="text-sm text-muted-foreground">
-          {order.status === "RETURNED" ? "Returned" : "Rental ends"}{" "}
-          {formatDate(order.rentalEndDate)}
+          Returned {formatDate(order.rentalEndDate)}
         </p>
       </div>
 
@@ -85,7 +84,7 @@ export function ReviewCenter() {
       <EmptyState
         icon={Star}
         title="No rentals to review yet"
-        description="Once you have paid for a booking you can review the gear here."
+        description="Once your provider marks a rental as returned you can review the gear here."
         action={
           <Button asChild>
             <Link href="/dashboard/customer/orders">View my rentals</Link>

@@ -52,7 +52,7 @@ export function useRegister() {
     onSuccess: ({ user, token }) => {
       writeToken(token);
       setUser(user);
-      toast.success("Account create. Welcome to Gear Up.");
+      toast.success("Account created. Welcome to GearUp.");
       router.replace(dashboardPathFor(user.role));
       router.refresh();
     },

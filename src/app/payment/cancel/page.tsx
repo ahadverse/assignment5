@@ -1,12 +1,12 @@
 import { Suspense } from "react";
 import { PaymentCancellation } from "@/components/payment/payment-cancellation";
-import { PaymentRedirectFallback } from "@/components/payment/payment-redirect-fallback";
+import { PaymentPending } from "@/components/payment/payment-pending";
 
 export const metadata = { title: "Payment cancelled" };
 
 export default function PaymentCancelPage() {
   return (
-    <Suspense fallback={<PaymentRedirectFallback label="Payment cancelled" />}>
+    <Suspense fallback={<PaymentPending label="Loading your booking" />}>
       <PaymentCancellation />
     </Suspense>
   );
