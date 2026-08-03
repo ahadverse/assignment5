@@ -19,9 +19,7 @@ export default function AuthLayout({
         <div className="absolute -right-24 -bottom-32 size-96 rounded-full bg-white/5 blur-3xl" />
 
         <Link href="/" className="relative flex items-center gap-2 text-lg font-semibold">
-          <span className="grid size-8 place-items-center rounded-lg bg-white/15">
-            <Mountain className="size-4.5" />
-          </span>
+        
           GearUp
         </Link>
 
@@ -52,9 +50,7 @@ export default function AuthLayout({
             href="/"
             className="mb-8 flex items-center gap-2 text-lg font-semibold lg:hidden"
           >
-            <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-              <Mountain className="size-4.5" />
-            </span>
+        
             GearUp
           </Link>
 

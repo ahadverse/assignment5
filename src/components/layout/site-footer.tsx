@@ -46,9 +46,7 @@ export function SiteFooter({ user = null }: { user?: User | null }) {
       <div className="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-2">
           <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
-            <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-              <Mountain className="size-4.5" />
-            </span>
+          
             GearUp
           </Link>
           <p className="max-w-sm text-sm text-muted-foreground">

@@ -76,9 +76,7 @@ export function SiteHeader({ user: serverUser }: { user: User | null }) {
           href="/"
           className="flex shrink-0 items-center gap-2 text-lg font-semibold"
         >
-          <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <Mountain className="size-4.5" />
-          </span>
+          
           <span className="tracking-tight">GearUp</span>
         </Link>
 
