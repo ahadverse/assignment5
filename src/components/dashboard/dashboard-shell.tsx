@@ -35,9 +35,7 @@ export function DashboardShell({
 
   const brand = (
     <Link href="/" className="flex items-center gap-2 font-semibold">
-      <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-        <Mountain className="size-4.5" />
-      </span>
+   
       GearUp
     </Link>
   );
